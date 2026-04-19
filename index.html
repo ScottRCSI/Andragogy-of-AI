@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Andragogy of AI — Scott Reitzel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0c;
+    --ink-mid: #3a3830;
+    --ink-muted: #7a7670;
+    --paper: #f7f4ef;
+    --paper-warm: #ede9e0;
+    --rule: #cdc8bc;
+    --accent: #1b3a2d;
+    --green-deep: #1b3a2d;
+    --teal: #0a7e78;
+    --teal-light: #e0f4f3;
+    --accent-2: #6b2d0e;
+    --accent-2-light: #f3e8e0;
+    --accent-light: #e2ece6;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'Playfair Display', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--paper); color: var(--ink); line-height: 1.7; font-size: 16px; }
+
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding: 1.25rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 100;
+  }
+
+  .wordmark { font-family: var(--serif); font-size: 0.95rem; letter-spacing: 0.03em; color: var(--ink-mid); }
+
+  .status-pill {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    padding: 0.28rem 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: blink 2.5s ease-in-out infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .hero {
+    padding: 7rem 3rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 4rem; left: 3rem;
+    width: 2px;
+    height: calc(100% - 5rem);
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    opacity: 0.35;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .hero-title .word-andragogy { font-style: italic; color: var(--green-deep); }
+  .hero-title .word-ai { font-style: normal; color: var(--teal); letter-spacing: -0.02em; }
+
+  .hero-subtitle {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink-muted);
+    max-width: 600px;
+    margin-bottom: 2.75rem;
+    padding-left: 1.5rem;
+  }
+
+  /* THESIS — large highlighted feature block */
+  .thesis-block {
+    margin-left: 1.5rem;
+    max-width: 720px;
+    background: var(--green-deep);
+    padding: 2.5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .thesis-block::after {
+    content: '\201C';
+    font-family: var(--serif);
+    font-size: 14rem;
+    line-height: 1;
+    color: rgba(255,255,255,0.06);
+    position: absolute;
+    top: -1rem;
+    right: 1.5rem;
+    pointer-events: none;
+  }
+
+  .thesis-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6fa88a;
+    margin-bottom: 1rem;
+  }
+
+  .thesis-text {
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    font-style: italic;
+    color: #e8f3ee;
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .thesis-text .teal-word {
+    color: #3dd6cf;
+    font-style: normal;
+  }
+
+  .section {
+    padding: 5rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section + .section { border-top: 1px solid var(--rule); }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .section-heading {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+
+  .prose { font-size: 0.97rem; color: var(--ink-mid); max-width: 660px; line-height: 1.8; margin-bottom: 1.25rem; }
+
+  .framework-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .framework-card {
+    border: 1px solid var(--rule);
+    padding: 1.75rem;
+    background: var(--paper);
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .framework-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .card-number {
+    font-family: var(--serif);
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--paper-warm);
+    position: absolute;
+    top: 1rem; right: 1.25rem;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  .card-title { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 0.55rem; position: relative; z-index: 1; }
+  .card-body { font-size: 0.87rem; color: var(--ink-muted); line-height: 1.7; }
+
+  .card-tag {
+    display: inline-block;
+    margin-top: 1.1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--accent);
+    border-top: 1px solid var(--accent);
+    padding-top: 0.4rem;
+  }
+
+  .insight-block {
+    background: var(--accent-2-light);
+    border-left: 3px solid var(--accent-2);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    max-width: 660px;
+  }
+
+  .insight-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--accent-2);
+    margin-bottom: 0.55rem;
+  }
+
+  .insight-text {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+
+  .layer-stack { margin-top: 2rem; display: flex; flex-direction: column; gap: 1px; }
+
+  .layer {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    border: 1px solid var(--rule);
+  }
+
+  .layer-label {
+    background: var(--accent);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .layer-num { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: #6fa88a; }
+  .layer-name { font-family: var(--serif); font-size: 0.97rem; color: #d8ede4; line-height: 1.3; }
+
+  .layer-content { padding: 1.5rem; background: var(--paper); }
+  .layer-content p { font-size: 0.9rem; color: var(--ink-mid); line-height: 1.72; }
+
+  .author-block {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 2.5rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    margin-top: 2.5rem;
+  }
+
+  .author-initial {
+    width: 60px; height: 60px;
+    background: var(--accent);
+    color: #9fd1ba;
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border-radius: 2px;
+  }
+
+  .author-name { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .author-role { font-size: 0.85rem; color: var(--ink-muted); line-height: 1.6; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-note { font-size: 0.75rem; color: var(--ink-muted); letter-spacing: 0.04em; }
+  .footer-note span { color: var(--accent); }
+
+  .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.65s ease forwards; }
+  @keyframes fadeUp { to { opacity:1; transform:none; } }
+  .fade-up:nth-child(1){animation-delay:.05s} .fade-up:nth-child(2){animation-delay:.18s} .fade-up:nth-child(3){animation-delay:.32s} .fade-up:nth-child(4){animation-delay:.46s}
+
+  @media(max-width:640px){
+    header{padding:1.25rem 1.5rem}
+    .hero,.section{padding:3.5rem 1.5rem}
+    .hero::before{display:none}
+    .hero-eyebrow,.hero-title,.hero-subtitle,.thesis-block{padding-left:0;margin-left:0}
+    .layer{grid-template-columns:1fr}
+    .author-block{flex-direction:column;padding:1.75rem;gap:1.25rem}
+    footer{padding:1.75rem 1.5rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="wordmark">Scott Reitzel &mdash; Research</span>
+  <span class="status-pill"><span class="status-dot"></span>Research in Progress</span>
+</header>
+
+<div class="hero">
+  <p class="hero-eyebrow fade-up">Working Research &middot; Adult Learning &middot; AI Adoption</p>
+  <h1 class="hero-title fade-up">The <span class="word-andragogy">Andragogy</span><br>of <span class="word-ai">AI</span></h1>
+  <p class="hero-subtitle fade-up">How adult learning theory explains &mdash; and accelerates &mdash; genuine AI adoption in the workplace.</p>
+  <div class="thesis-block fade-up">
+    <p class="thesis-label">Central thesis</p>
+    <p class="thesis-text">"Your expertise is the point &mdash; <span class="teal-word">AI</span> just extends its reach."</p>
+  </div>
+</div>
+
+<section class="section">
+  <p class="section-label">Overview</p>
+  <h2 class="section-heading">The problem with how we talk about AI at work</h2>
+  <p class="prose">Most organizational AI adoption frameworks treat the workforce as a technology deployment problem: train people, manage change, measure compliance. This fundamentally misunderstands both AI and the adults using it.</p>
+  <p class="prose">Malcolm Knowles' andragogy &mdash; the theory of adult learning &mdash; offers a more useful lens. Adults bring deep reservoirs of prior experience, strong self-concepts, and practical motivation. They need to know <em>why</em> before they will engage with <em>how</em>.</p>
+  <p class="prose">This research argues that effective AI adoption is not a training problem. It is a learning design problem &mdash; one with meaningful implications for how organizations communicate, frame, and integrate AI into professional practice.</p>
+
+  <div class="insight-block">
+    <p class="insight-label">Central Proposition</p>
+    <p class="insight-text">The same AI capability can either threaten professional identity or extend expert reach &mdash; depending entirely on how it is framed. That framing is not cosmetic. It is the mechanism of adoption.</p>
+  </div>
+</section>
+
+<section class="section">
+  <p class="section-label">Theoretical Framework</p>
+  <h2 class="section-heading">Six principles, reinterpreted for the AI era</h2>
+  <p class="prose">Knowles identified six core assumptions about adult learners. Each maps directly to observable patterns in how professionals engage with &mdash; or resist &mdash; AI tools in workplace contexts.</p>
+
+  <div class="framework-grid">
+    <div class="framework-card">
+      <span class="card-number">1</span>
+      <p class="card-title">Self-Concept</p>
+      <p class="card-body">Adults move from dependency toward self-direction. AI adoption succeeds when it reinforces professional autonomy, not when it positions workers as AI operators or prompt technicians.</p>
+      <span class="card-tag">Identity framing</span>
+    </div>
+    <div class="framework-card">
+      <span class="card-number">2</span>
+      <p class="card-title">Prior Experience</p>
+      <p class="card-body">Accumulated expertise is the resource, not the obstacle. Effective AI integration treats domain knowledge as the irreplaceable input that gives AI outputs meaning and direction.</p>
+      <span class="card-tag">Knowledge architecture</span>
+    </div>
+    <div class="framework-card">
+      <span class="card-number">3</span>
+      <p class="card-title">Readiness to Learn</p>
+      <p class="card-body">Adults engage when learning solves a real problem they currently face. AI framed around abstract future capability stalls. AI framed around today's friction accelerates adoption.</p>
+      <span class="card-tag">Motivation design</span>
+    </div>
+    <div class="framework-card">
+      <span class="card-number">4</span>
+      <p class="card-title">Orientation to Learning</p>
+      <p class="card-body">Problem-centered, not subject-centered. Adults want to apply, not accumulate. Training organized around AI features fails where programs organized around use cases succeed.</p>
+      <span class="card-tag">Program design</span>
+    </div>
+    <div class="framework-card">
+      <span class="card-number">5</span>
+      <p class="card-title">Internal Motivation</p>
+      <p class="card-body">Durable AI adoption is driven by intrinsic value &mdash; better work, faster thinking, reduced cognitive load &mdash; not by organizational mandate or competitive fear.</p>
+      <span class="card-tag">Adoption dynamics</span>
+    </div>
+    <div class="framework-card">
+      <span class="card-number">6</span>
+      <p class="card-title">Need to Know</p>
+      <p class="card-body">Adults require a compelling rationale before investing effort. Organizations that deploy AI without answering "what does this mean for my work" encounter predictable resistance.</p>
+      <span class="card-tag">Change communication</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <p class="section-label">Key Concept</p>
+  <h2 class="section-heading">The Identity Subtext Audit</h2>
+  <p class="prose">One of the most consequential &mdash; and least discussed &mdash; dimensions of AI communication is identity subtext: the implicit signal embedded in how a capability is named, framed, and positioned.</p>
+  <p class="prose">Consider a single capability: AI-generated first drafts. The same feature can be presented as a cost-reduction measure, a compliance tool, or an expert amplifier. Each framing is factually accurate. Each triggers a different psychological and behavioral response in adult professionals.</p>
+
+  <div class="insight-block">
+    <p class="insight-label">Core Insight</p>
+    <p class="insight-text">Before any AI communication is finalized, it is worth asking: what does this framing say about the value of the person receiving it? That question &mdash; the identity subtext audit &mdash; may be the highest-leverage intervention in AI adoption strategy.</p>
+  </div>
+
+  <p class="prose">This concept has direct applications in organizational change management, internal communications strategy, and the design of AI-integrated workflows &mdash; particularly in knowledge-intensive professions where expert identity is tightly coupled to professional value.</p>
+</section>
+
+<section class="section">
+  <p class="section-label">Research Scope &amp; Domains</p>
+  <h2 class="section-heading">Where this framework applies</h2>
+  <p class="prose">The Andragogy of AI framework is domain-agnostic in principle, but initially grounded in three applied contexts where adult learner characteristics and AI capability most acutely intersect.</p>
+
+  <div class="layer-stack">
+    <div class="layer">
+      <div class="layer-label">
+        <span class="layer-num">Domain I</span>
+        <span class="layer-name">Enterprise &amp; Professional Organizations</span>
+      </div>
+      <div class="layer-content">
+        <p>How do knowledge workers in large organizations navigate AI integration when their professional identity, authority, and compensation are tied to expertise that AI appears to replicate? Change communication, leadership framing, and role architecture are examined through the andragogical lens.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-label">
+        <span class="layer-num">Domain II</span>
+        <span class="layer-name">Healthcare &amp; Clinical Practice</span>
+      </div>
+      <div class="layer-content">
+        <p>Clinicians represent a high-stakes case: deep expertise, high autonomy, strong professional identity, and significant resistance to perceived de-skilling. AI in diagnostic support, documentation, and patient communication surfaces each of the six andragogical tensions simultaneously.</p>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-label">
+        <span class="layer-num">Domain III</span>
+        <span class="layer-name">Higher Education &amp; Curriculum</span>
+      </div>
+      <div class="layer-content">
+        <p>How should educators &mdash; themselves adult learners &mdash; redesign curriculum when AI is available to students? This domain explores AI not as a cheating problem to be managed, but as a pedagogical design challenge that andragogy is well-positioned to address.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <p class="section-label">Research Status</p>
+  <h2 class="section-heading">This work is ongoing</h2>
+  <p class="prose">The Andragogy of AI is an active research project. The theoretical framework presented here represents the current working structure, which continues to evolve as the literature review deepens and applied case material is gathered.</p>
+  <p class="prose">Anticipated outputs include a peer-reviewed journal article, practitioner-facing white paper, and potentially a short-form book expanding the framework for general professional audiences. Collaborative development is in consideration.</p>
+  <p class="prose" style="color:var(--ink-muted);font-size:0.88rem;">Inquiries regarding collaboration, citation, or early access are welcome.</p>
+
+  <div class="author-block">
+    <div class="author-initial">SR</div>
+    <div>
+      <p class="author-name">Scott Reitzel</p>
+      <p class="author-role">
+        Commercial Strategy &amp; Innovation &middot; McKesson<br>
+        Founder, Elarra &middot; AI-Native Decision Intelligence<br><br>
+        Scott works at the intersection of data strategy, brand intelligence, and AI adoption across healthcare and enterprise contexts. His practitioner perspective on AI integration informs the applied dimensions of this research.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-note">Research in progress &mdash; updated periodically &middot; <span>&copy; Scott Reitzel 2025</span></span>
+  <span class="footer-note">andragogy-of-ai</span>
+</footer>
+
+</body>
+</html>
